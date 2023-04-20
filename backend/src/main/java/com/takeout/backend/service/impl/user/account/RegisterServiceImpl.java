@@ -20,15 +20,14 @@ public class RegisterServiceImpl implements RegisterService {
     public Map<String, String> register(String number) {
         Map<String,String> map = new HashMap<>();
         String username = "QS";
+        User user = new User(null,username,number,new Date(),new Date());
+        userMapper.insert(user);
+        map.put("error_message","success");
         try{
-            Integer phone = Integer.parseInt(number);
-            User user = new User(null,username,phone,new Date(),new Date());
-            userMapper.insert(user);
-            map.put("error_message","success");
+
         } catch (Exception e) {
             map.put("error_message","错误");
         }
-
         return map;
     }
 }

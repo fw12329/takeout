@@ -9,13 +9,17 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class User {
+@NoArgsConstructor
+public class Details {
     @TableId(type = IdType.AUTO)
-    private Integer user_id;
-    private String username;
-    private String number;
+    private Integer order_item_id;
+    private Integer order_id;
+    private Integer product_id;
+    private Integer quantity;
+    private Double price;
     private Date created_at;
-    private Date updated_at;
+    private Integer user_id;
+    private Integer seller_id;
+
 }
