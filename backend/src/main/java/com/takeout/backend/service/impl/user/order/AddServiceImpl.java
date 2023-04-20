@@ -47,14 +47,17 @@ public class AddServiceImpl implements AddService {
             queryWrapper.eq("user_id",user.getUser_id()).eq("product_id",product_id).eq("seller_id",seller_id);
             Details details = detailsMapper.selectOne(queryWrapper);
             if(details != null) {
-                updateWrapper.eq("user_id",user.getUser_id()).eq("product_id",product_id).eq("seller_id",seller_id).set("quantity",details.getQuantity() + 1).set("price",(details.getQuantity() + 1) * commodity.getPrice());
+                Integer stock = commodity.getStock() - 1;
+                Double price = (details.getQuantity() + 1) * commodity.getPrice();
+                updateWrapper.eq("user_id",user.getUser_id()).eq("product_id",product_id).eq("seller_id",seller_id).set("quantity",stock).set("price",price);
                 detailsMapper.update(null,updateWrapper);
             } else {
                 Details details1 = new Details(null,null,product_id,1,commodity.getPrice(),new Date(),user.getUser_id(),seller_id);
                 detailsMapper.insert(details1);
 
             }
-            updateWrapper1.eq("product_id",product_id).eq("seller_id",seller_id).set("stock",commodity.getStock() - 1);
+            Integer stock = commodity.getStock() - 1;
+            updateWrapper1.eq("product_id",product_id).eq("seller_id",seller_id).set("stock",stock);
             commodityMapper.update(null,updateWrapper1);
             map.put("error_message","success");
         } else {
