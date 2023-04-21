@@ -13,9 +13,9 @@ import java.util.Date;
 @AllArgsConstructor
 public class User {
     @TableId(type = IdType.AUTO)
-    private Integer user_id;
+    private Integer userId;
     private String username;
     private String number;
-    private Date created_at;
-    private Date updated_at;
+    private Date createdAt;
+    private Date updatedAt;
 }

@@ -44,15 +44,15 @@ public class AddServiceImpl implements AddService {
         UpdateWrapper<Commodity> updateWrapper1 = new UpdateWrapper<>();
         if(commodity.getStock() > 0) {
             QueryWrapper<Details> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("user_id",user.getUser_id()).eq("product_id",product_id).eq("seller_id",seller_id);
+            queryWrapper.eq("user_id",user.getUserId()).eq("product_id",product_id).eq("seller_id",seller_id);
             Details details = detailsMapper.selectOne(queryWrapper);
             if(details != null) {
-                Integer stock = commodity.getStock() - 1;
-                Double price = (details.getQuantity() + 1) * commodity.getPrice();
-                updateWrapper.eq("user_id",user.getUser_id()).eq("product_id",product_id).eq("seller_id",seller_id).set("quantity",stock).set("price",price);
+                Integer stock = details.getQuantity() + 1;
+                Double price = stock * commodity.getPrice();
+                updateWrapper.eq("user_id",user.getUserId()).eq("product_id",product_id).eq("seller_id",seller_id).set("quantity",stock).set("price",price);
                 detailsMapper.update(null,updateWrapper);
             } else {
-                Details details1 = new Details(null,null,product_id,1,commodity.getPrice(),new Date(),user.getUser_id(),seller_id);
+                Details details1 = new Details(null,null,product_id,1,commodity.getPrice(),new Date(),user.getUserId(),seller_id);
                 detailsMapper.insert(details1);
 
             }

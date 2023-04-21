@@ -13,12 +13,12 @@ import java.util.Date;
 @AllArgsConstructor
 public class Order {
     @TableId(type = IdType.AUTO)
-    private Integer order_id;
-    private Integer user_id;
-    private Integer seller_id;
-    private Date order_time;
+    private Integer orderId;
+    private Integer userId;
+    private Integer sellerId;
+    private Date orderTime;
     private String status;
-    private Date created_at;
-    private Date updated_at;
+    private Date createdAt;
+    private Date updatedAt;
 
 }

@@ -31,7 +31,7 @@ public class RemoveServiceImpl implements RemoveService {
         User user = new User(1,"QS","18965009795",new Date(),new Date());
 
         QueryWrapper<Details> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id",user.getUser_id()).eq("product_id",product_id).eq("seller_id",seller_id);
+        queryWrapper.eq("user_id",user.getUserId()).eq("product_id",product_id).eq("seller_id",seller_id);
         Details details = detailsMapper.selectOne(queryWrapper);
 
         QueryWrapper<Commodity> queryWrapper1 = new QueryWrapper<>();
@@ -41,15 +41,12 @@ public class RemoveServiceImpl implements RemoveService {
         if(detailsMapper.selectOne(queryWrapper) != null) {
             UpdateWrapper<Details> updateWrapper1 = new UpdateWrapper<>();
             Integer quantity = details.getQuantity() - 1;
-            updateWrapper1.eq("user_id",user.getUser_id()).eq("product_id",product_id).eq("seller_id",seller_id).set("quantity",quantity);
+            updateWrapper1.eq("user_id",user.getUserId()).eq("product_id",product_id).eq("seller_id",seller_id).set("quantity",quantity).set("price",quantity * commodity.getPrice());
             detailsMapper.update(null,updateWrapper1);
             if(quantity < 1) {
                 QueryWrapper<Details> queryWrapper2 = new QueryWrapper<>();
-                queryWrapper2.eq("user_id",user.getUser_id()).eq("product_id",product_id).eq("seller_id",seller_id);
+                queryWrapper2.eq("user_id",user.getUserId()).eq("product_id",product_id).eq("seller_id",seller_id);
                 detailsMapper.delete(queryWrapper2);
-            } else {
-                map.put("error_message","该商家当前商品库存不足");
-                return map;
             }
             UpdateWrapper<Commodity> updateWrapper = new UpdateWrapper<>();
             Integer stock = commodity.getStock() + 1;
@@ -58,6 +55,9 @@ public class RemoveServiceImpl implements RemoveService {
 
             map.put("error_message","success");
 
+        } else {
+            map.put("error_message","该商品订单不存在");
+            return map;
         }
 
 

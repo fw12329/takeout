@@ -15,13 +15,14 @@ import java.util.Date;
 @NoArgsConstructor
 public class Commodity {
     @TableId(type = IdType.AUTO)
-    private Integer product_id;
-    private Integer product_name;
+    private Integer productId;
+    private String productName;
     private String description;
     private Double price;
     private Integer stock;
-    private Integer seller_id;
-    private Date created_at;
-    private Date updated_at;
+    private Integer sellerId;
+    private Date createdAt;
+    private Date updatedAt;
+    private String photo;
 
 }

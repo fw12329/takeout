@@ -7,6 +7,7 @@ import com.takeout.backend.service.user.order.GetOrderDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,7 @@ public class GetOrderDetailsServiceImpl implements GetOrderDetailsService {
         String order_id = data.get("order_id");
 
         QueryWrapper<Details> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("order_id",order_id);
+        queryWrapper.eq("order_id",order_id).eq("user_id",1);
         List<Details> list = detailsMapper.selectList(queryWrapper);
 
         return list;

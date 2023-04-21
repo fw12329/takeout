@@ -23,7 +23,7 @@ public class GetListServiceImpl implements GetListService {
         UserDetailsImpl loginUser = (UserDetailsImpl) authenticationToken.getPrincipal();
         User user = loginUser.getUser();
         QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id",user.getUser_id());
+        queryWrapper.eq("user_id",user.getUserId());
         return orderMapper.selectList(queryWrapper);
     }
 }
