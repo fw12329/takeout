@@ -29,6 +29,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         String token = request.getHeader("Authorization");
 
         if (!StringUtils.hasText(token) || !token.startsWith("Bearer ")) {
+            System.out.println("到这了");
             filterChain.doFilter(request, response);
             return;
         }
@@ -37,6 +38,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
         String userid;
         try {
+
             Claims claims = JwtUtil.parseJWT(token);
             userid = claims.getSubject();
         } catch (Exception e) {

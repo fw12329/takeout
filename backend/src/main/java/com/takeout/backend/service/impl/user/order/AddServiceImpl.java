@@ -30,10 +30,9 @@ public class AddServiceImpl implements AddService {
 
     @Override
     public Map<String, String> add(Map<String, String> data) {
-//        UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-//        UserDetailsImpl loginUser = (UserDetailsImpl) authenticationToken.getPrincipal();
-//        User user = loginUser.getUser();
-        User user = new User(1,"QS","18965009795",new Date(),new Date());
+        UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl loginUser = (UserDetailsImpl) authenticationToken.getPrincipal();
+        User user = loginUser.getUser();
         Map<String,String> map = new HashMap<>();
         Integer product_id = Integer.parseInt(data.get("product_id"));
         Integer seller_id = Integer.parseInt(data.get("seller_id"));

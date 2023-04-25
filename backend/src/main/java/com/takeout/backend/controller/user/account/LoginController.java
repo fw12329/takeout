@@ -16,7 +16,7 @@ public class LoginController {
 
     @PostMapping("/user/account/token/")
     public Map<String,String> getToken(@RequestParam Map<String,String> data) {
-        return loginService.getToken("abc","abc");
+        return loginService.getToken(data);
     }
 
 }

@@ -18,4 +18,5 @@ public class User {
     private String number;
     private Date createdAt;
     private Date updatedAt;
+    private String openId;
 }
