@@ -44,12 +44,12 @@ public class LoginServiceImpl implements LoginService {
             map.put("error_message","success");
             map.put("token",jwt);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            map.put("error_message",e.getMessage());
+            return map;
         }
 
 
 
-        System.out.println(map.get("token"));
         return map;
 
 

@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,9 +18,9 @@ public class test {
     private UserDetailsService userDetailsService;
 
     @GetMapping("/test/")
-    public String test() {
-
-        System.out.println(SecurityContextHolder.getContext().getAuthentication());
-        return "sucess";
+    public Map<String,String> test() {
+        Map<String,String> map = new HashMap<>();
+        map.put("error_message","success");
+        return map;
     }
 }
