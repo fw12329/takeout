@@ -33,22 +33,14 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public Map<String, String> getToken(Map<String,String> data) {
-        String open_id = data.get("username");
-        UserDetails userDetails = userDetailsService.loadUserByUsername(open_id);
         Map<String,String> map = new HashMap<>();
-        if(userDetails == null) {
-
-
-            userDetailsService.loadUserByUsername(open_id);
-        }
         try {
-
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(data.get("username"),data.get("password"));
-
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
-            System.out.println(authentication.getPrincipal());
-            String openid = authentication.getPrincipal().toString();
-            String jwt = JwtUtil.createJWT(openid);
+
+            UserDetailsImpl loginUser = (UserDetailsImpl) authentication.getPrincipal();
+            User user = loginUser.getUser();
+            String jwt = JwtUtil.createJWT(user.getOpenId());
             map.put("error_message","success");
             map.put("token",jwt);
         } catch (Exception e) {
@@ -57,7 +49,7 @@ public class LoginServiceImpl implements LoginService {
 
 
 
-
+        System.out.println(map.get("token"));
         return map;
 
 

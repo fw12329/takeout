@@ -19,7 +19,5 @@ public class Details {
     private Integer quantity;
     private Double price;
     private Date createdAt;
-    private Integer userId;
-    private Integer sellerId;
 
 }

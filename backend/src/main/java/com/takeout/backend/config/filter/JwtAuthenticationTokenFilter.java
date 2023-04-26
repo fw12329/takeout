@@ -1,5 +1,6 @@
 package com.takeout.backend.config.filter;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.takeout.backend.mapper.UserMapper;
 import com.takeout.backend.pojo.User;
 import com.takeout.backend.service.impl.utils.UserDetailsImpl;
@@ -27,25 +28,22 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader("Authorization");
-
+        System.out.println(token);
         if (!StringUtils.hasText(token) || !token.startsWith("Bearer ")) {
-            System.out.println("到这了");
             filterChain.doFilter(request, response);
             return;
         }
-
         token = token.substring(7);
-
-        String userid;
+        String open_id;
         try {
-
             Claims claims = JwtUtil.parseJWT(token);
-            userid = claims.getSubject();
+            open_id = claims.getSubject();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-        User user = userMapper.selectById(Integer.parseInt(userid));
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("open_id",open_id);
+        User user = userMapper.selectOne(queryWrapper);
 
         if (user == null) {
             throw new RuntimeException("用户名未登录");
