@@ -4,5 +4,5 @@ import java.util.List;
 import java.util.Map;
 
 public interface CommitOrderService {
-    Map<String,String> commitOrder(Integer seller_id,List<Map<String,Integer>> list);
+    Map<String,String> commitOrder(Map<String,Object> data);
 }

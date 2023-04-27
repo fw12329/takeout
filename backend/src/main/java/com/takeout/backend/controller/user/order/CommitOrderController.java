@@ -16,8 +16,8 @@ public class CommitOrderController {
     private CommitOrderService commitOrderService;
 
     @PostMapping("/user/order/commit/")
-    public Map<String,String> add(@RequestBody Map<String, List<Map<String, Object>>> request) {
+    public Map<String,String> add(@RequestBody Map<String,Object> data) {
 
-        return commitOrderService.commitOrder(10,null);
+        return commitOrderService.commitOrder(data);
     }
 }

@@ -1,9 +1,9 @@
 package com.takeout.backend.service.user.order;
 
-import com.takeout.backend.pojo.Order;
+import com.takeout.backend.pojo.Orders;
 
 import java.util.List;
 
 public interface GetListService {
-    List<Order> getList();
+    List<Orders> getList();
 }

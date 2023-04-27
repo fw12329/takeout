@@ -1,6 +1,6 @@
 package com.takeout.backend.controller.user.order;
 
-import com.takeout.backend.pojo.Order;
+import com.takeout.backend.pojo.Orders;
 import com.takeout.backend.service.user.order.GetListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +15,7 @@ public class GetListController {
 
 
     @GetMapping("/user/order/getlist/")
-    public List<Order> getList() {
+    public List<Orders> getList() {
         return getListService.getList();
     }
 }

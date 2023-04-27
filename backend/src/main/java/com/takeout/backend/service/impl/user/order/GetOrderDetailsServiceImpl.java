@@ -29,7 +29,7 @@ public class GetOrderDetailsServiceImpl implements GetOrderDetailsService {
         User user = loginUser.getUser();
         String order_id = data.get("order_id");
         QueryWrapper<Details> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("order_id",order_id).eq("user_id",user.getUserId());
+        queryWrapper.eq("order_id",order_id).eq("open_id",user.getOpenId());
         List<Details> list = detailsMapper.selectList(queryWrapper);
 
         return list;

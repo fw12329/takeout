@@ -25,4 +25,5 @@ public class Commodity {
     private Date updatedAt;
     private String photo;
 
+
 }
