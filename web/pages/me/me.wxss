@@ -1,0 +1,47 @@
+.list {
+  background-color: #fff;
+  height: 2px;
+}
+
+.item {
+  height: 50px;
+  line-height: 50px;
+  padding: 0 15px;
+  font-size: 16px;
+}
+
+.line {
+  height: 1px;
+  background-color: #ddd;
+}
+.background {
+  background-color: #fff; /* 列表的背景颜色为白色 */
+  position: relative;
+}
+image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-left: 10px;
+  overflow: hidden;
+}
+.username {
+  position:absolute;
+  padding: 15px;
+  top:5px;
+  font-weight: bold;
+}
+.login{
+  position:absolute;
+  padding: 15px;
+  top:25px;
+  font-size: 16px;
+}
+.phone {
+  position:absolute;
+  padding: 15px;
+  top:30px;
+  font-size: 14px;
+}
+
+

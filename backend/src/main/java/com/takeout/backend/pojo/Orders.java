@@ -15,10 +15,15 @@ import java.util.Date;
 public class Orders {
     @TableId(type = IdType.AUTO)
     private Integer orderId;
-    private String openId;
-    private Integer sellerId;
-    private String status;
+    private Double totalPrice;
     private Date createdAt;
     private Date updatedAt;
+    private String contactName;
+    private String contactPhone;
+    private String contactAddress;
+    private Integer status;
+    private String isPlay;
+    private Integer sellerId;
+    private String openId;
 
 }

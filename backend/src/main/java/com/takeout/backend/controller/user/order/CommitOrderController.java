@@ -1,13 +1,12 @@
 package com.takeout.backend.controller.user.order;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.takeout.backend.service.user.order.CommitOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -16,8 +15,16 @@ public class CommitOrderController {
     private CommitOrderService commitOrderService;
 
     @PostMapping("/user/order/commit/")
-    public Map<String,String> add(@RequestBody Map<String,Object> data) {
+    public Map<String,String> commitOrders(@RequestBody Map<String,String> data) throws JsonProcessingException {
 
-        return commitOrderService.commitOrder(data);
+
+        Integer seller_id = Integer.parseInt(data.get("seller_id"));
+        String contact_name = data.get("contact_name");
+        String contact_phone = data.get("contact_phone");
+        String contact_address = data.get("contact_address");
+        Integer status = Integer.parseInt(data.get("status"));
+        String orders = data.get("orders");
+
+        return commitOrderService.commitOrder(seller_id,contact_name,contact_phone,contact_address,status,orders);
     }
 }

@@ -43,8 +43,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.eq("open_id",open_id);
         User user = userMapper.selectOne(queryWrapper);
-        System.out.println("到这了");
+        System.out.println(user);
         if (user == null) {
+
             throw new RuntimeException("用户名未登录");
         }
 

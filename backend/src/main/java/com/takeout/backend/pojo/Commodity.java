@@ -17,13 +17,11 @@ public class Commodity {
     @TableId(type = IdType.AUTO)
     private Integer productId;
     private String productName;
+    private String image;
     private String description;
-    private Double price;
-    private Integer stock;
     private Integer sellerId;
-    private Date createdAt;
-    private Date updatedAt;
-    private String photo;
+    private Integer sellercategoryId;
+    private Integer status;
 
 
 }

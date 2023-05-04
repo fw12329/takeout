@@ -1,0 +1,6 @@
+<view>
+  <text>你比美团还能送</text>
+  <button bindtap="">微信登录</button>
+</view>
+
+

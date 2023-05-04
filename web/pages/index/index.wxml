@@ -1,0 +1,23 @@
+<view class="category-container">
+  <view class="category-header">
+    <input type="text" class="category-header-search" placeholder-class="center" placeholder="搜索商家或者商品" />
+    <!-- <button class="search-btn">搜索</button> -->
+  </view>
+  <view class="category-main">
+    <swiper indicator-dots="false" autoplay="false" circular="false" current="{{current}}" duration="{{500}}" bindchange="swiperChange">
+      <swiper-item>
+        <image src="../images/丁真.png"></image>
+      </swiper-item>
+      <swiper-item>
+        <view>菜单项2</view>
+      </swiper-item>
+    </swiper>
+    <view class="seller_list" wx:for="{{arr}}">
+      <view class="seller" >
+        <image src="../images/丁真.png" class="seller_image"></image>
+        <text class="seller_info">屈伸人体寿司</text>
+      </view>
+    </view>
+
+  </view>
+</view>

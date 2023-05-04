@@ -2,59 +2,84 @@ package com.takeout.backend.service.impl.user.order;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.takeout.backend.mapper.CommodityMapper;
-import com.takeout.backend.mapper.DetailsMapper;
-import com.takeout.backend.mapper.OrdersMapper;
-import com.takeout.backend.pojo.Commodity;
-import com.takeout.backend.pojo.Details;
-import com.takeout.backend.pojo.Orders;
-import com.takeout.backend.pojo.User;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.takeout.backend.mapper.*;
+import com.takeout.backend.pojo.*;
 import com.takeout.backend.service.impl.utils.UserDetailsImpl;
 import com.takeout.backend.service.user.order.CommitOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CommitOrderServiceImpl implements CommitOrderService {
 
     @Autowired
     private DetailsMapper detailsMapper;
-
-    @Autowired
-    private CommodityMapper commodityMapper;
-
     @Autowired
     private OrdersMapper ordersMapper;
 
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
+    private SpecMapper specMapper;
+
+    @Autowired
+    private DetailsspecMapper detailsspecMapper;
+
     @Override
-    public Map<String, String> commitOrder(Map<String,Object> data) {
+    @Transactional
+    public Map<String, String> commitOrder(Integer seller_id,
+                                           String contact_name,
+                                           String contact_phone,
+                                           String contact_address,
+                                           Integer status,
+                                           String orders) throws JsonProcessingException {
         Map<String,String> map = new HashMap<>();
         UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl loginUser = (UserDetailsImpl) authenticationToken.getPrincipal();
 
         User user = loginUser.getUser();
-        Integer seller_id = Integer.parseInt(data.get("seller_id").toString());
-        Orders orders = new Orders(null,user.getOpenId(),seller_id,"0",new Date(),new Date());
-        ordersMapper.insert(orders);
-        List<Map<String, Object>> list = (List<Map<String, Object>>) data.get("map");
-        for(int i = 0;i < list.size();i++) {
-            Map<String,Object> orderDetails = list.get(i);
-            Integer product_id = (Integer)orderDetails.get("product_id");
-            Integer number = (Integer)orderDetails.get("number");
-            QueryWrapper<Commodity> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("product_id",product_id);
-            Commodity commodity = commodityMapper.selectOne(queryWrapper);
-            Double price = commodity.getPrice() * number;
-            Details details = new Details(null,orders.getOrderId(),product_id,number,price,new Date());
-            detailsMapper.insert(details);
+        String open_id = user.getOpenId();
+
+        Orders or = new Orders(null,null,new Date(),new Date(),contact_name,contact_phone,contact_address,status,null,seller_id,open_id);
+        ordersMapper.insert(or);
+        Double orders_Price = 0.00;
+        ArrayList<Object> order = objectMapper.readValue(orders,ArrayList.class);
+        for(int i = 0;i < order.size();i++) {
+            Map<String,Object> details = (Map<String,Object>)order.get(i);
+            Integer product_id = Integer.parseInt(details.get("product").toString());
+            Integer quantity = Integer.parseInt(details.get("quantity").toString());
+            ArrayList<Map<Object,Object>> spec = (ArrayList<Map<Object,Object>>)details.get("spec");
+            Details details1 = new Details(null,or.getOrderId(),product_id,null,4);
+            detailsMapper.insert(details1);
+            Double spec_price = 0.00;
+            for(int j = 0;j < spec.size();j++) {
+                Map<Object,Object> specs = spec.get(j);
+                Integer spec_id = Integer.parseInt(specs.get("spec").toString());
+                Integer specs_id = Integer.parseInt(specs.get("specs").toString());
+                Detailsspec detailsspec = new Detailsspec(null,spec_id,specs_id,details1.getId());
+                detailsspecMapper.insert(detailsspec);
+                QueryWrapper<Spec> queryWrapper = new QueryWrapper<>();
+                queryWrapper.eq("id",spec_id).eq("specs_id",specs_id);
+                Spec spec1 = specMapper.selectOne(queryWrapper);
+                spec_price += spec1.getSpecPrice();
+            }
+            details1.setSpecPrice(spec_price * quantity);
+            detailsMapper.updateById(details1);
+            orders_Price += details1.getSpecPrice();
+
+
         }
+        or.setTotalPrice(orders_Price);
+        ordersMapper.updateById(or);
         map.put("error_message","success");
         return map;
 //        try {

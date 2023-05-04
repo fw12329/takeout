@@ -3,6 +3,7 @@ package com.takeout.backend.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.takeout.backend.mapper.UserMapper;
 import com.takeout.backend.pojo.User;
+import com.takeout.backend.utils.HttpClientUtil;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -38,12 +40,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-
-        BufferedReader reader = null;
-        String line = null;
-        Map<Object,Object> map = null;
+        BufferedReader reader;
+        String line;
+        Map<Object,Object> map;
         String openId;
-        String number;
+        String url = "https://api.weixin.qq.com/sns/jscode2session";
         try {
 
             reader = request.getReader();
@@ -53,25 +54,32 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
                 stringBuilder.append(line);
             }
-
             String requestBody = stringBuilder.toString();
-
             map = mapper.readValue(requestBody, Map.class);
-            System.out.println(map);
-            openId = map.get("open_id").toString();
-            number = map.get("number").toString();
-
+            String code = map.get("code").toString();
+            String appid = map.get("appid").toString();
+            String secret = map.get("secret").toString();
+            Map<String,String> result = new HashMap<>();
+            result.put("appid",appid);
+            result.put("secret",secret);
+            result.put("js_code",code);
+            result.put("grant_type", "authorization_code");
+            String s = HttpClientUtil.doGet(url,result);
+            Map<String,String> WxUserInfo = mapper.readValue(s, Map.class);
+            if(WxUserInfo.get("session_key") == null) {
+                throw new BadCredentialsException("code失效");
+            }
+            openId = WxUserInfo.get("session_key");
             UserDetails userDetails = userDetailsService.loadUserByUsername(openId);
             if(userDetails == null) {
                 String username = "QS" + RandomStringUtils.randomNumeric(8);
-                User user = new User(null,username,number,new Date(),new Date(),openId);
+                User user = new User(null,username,"123",new Date(),new Date(),openId);
                 userMapper.insert(user);
                 userDetails = userDetailsService.loadUserByUsername(openId);
             }
-
-            // 比较用户密码是否匹配
-            if(!number.equals(userDetails.getPassword())) {
-                throw new BadCredentialsException("Invalid password.");
+            //userDetails.getUsername返回的是open_id比较open_id是否相等
+            if(!openId.equals(userDetails.getUsername())) {
+                throw new BadCredentialsException("Invalid openid.");
             }
             System.out.println("认证通过");
             // 认证通过，返回UsernamePasswordAuthenticationToken对象
@@ -91,6 +99,5 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     public boolean supports(Class<?> authentication) {
         return authentication.equals(UsernamePasswordAuthenticationToken.class);
     }
-
 
 }

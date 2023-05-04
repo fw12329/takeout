@@ -1,0 +1,25 @@
+<view class="background" wx:if="{{!is_login}}">
+  <image class="avatar" src="/pages/images/丁真.png"></image>
+  <text class="username">{{username}}</text>
+  <view class="list">
+    <view class="item">我的地址</view>
+    <view class="line"></view>
+    <view class="item">我的收藏</view>
+    <view class="line"></view>
+    <view class="item">我的评价</view>
+  </view>
+  <button bindtap="test1" style="margin-top: 200px;">退出账号</button>
+</view>
+
+<view class="background" wx:else="{{is_login}}">
+  <image class="avatar" src="/pages/images/丁真.png"></image>
+  <text class="login" bindtap="login">登录/注册</text>
+  <view class="list">
+    <view class="item">我的地址</view>
+    <view class="line"></view>
+    <view class="item">我的收藏</view>
+    <view class="line"></view>
+    <view class="item">我的评价</view>
+    
+  </view>
+</view>

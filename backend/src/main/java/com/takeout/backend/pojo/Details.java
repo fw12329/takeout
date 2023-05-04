@@ -13,11 +13,10 @@ import java.util.Date;
 @NoArgsConstructor
 public class Details {
     @TableId(type = IdType.AUTO)
-    private Integer orderItemId;
+    private Integer id;
     private Integer orderId;
     private Integer productId;
+    private Double specPrice;
     private Integer quantity;
-    private Double price;
-    private Date createdAt;
 
 }
