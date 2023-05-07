@@ -1,38 +1,37 @@
 Page({
-  data: {
-    token: '',
-    username: '',
-    is_login: false,
-    abc: '屈伸',
-    specs:[{specs_name:"底料",spec_list:[{}]}],
-    orders:[{'product':1,'quantity':10,'spec':[{spec:7,specs:8},{}]}]
-
+  data:{
+    username:'',
+    is_login:false
   },
-  test1() {
+  onLoad(){
+    let app = getApp();
     wx.request({
-      url: 'http://127.0.0.1:8081/user/order/getorderdetails/',
-      method:"post",
-      data:{
-        order_id:25
+      url: 'http://127.0.0.1:8081/user/account/info/',
+      method:"get",
+      header:{
+        Authorization: "Bearer " + wx.getStorageSync('token')
       },
       success(resp) {
-        console.log(resp.data)
+        if(resp.data.error_message == "success") {
+          app.data.is_login = true;
+          app.data.username = resp.data.username;
+        }
       }
-
+    })
+    this.setData({
+      username:app.data.username,
+      is_login:app.data.is_login
     })
   },
-  
-  test() {
-    let that = this
-    wx.request({
-      url: 'http://127.0.0.1:8081/test/',
-      method:'get',
-      success(resp) {
-        console.log(resp.data)
-        // let jsonObj = JSON.parse(resp.data)
-      }
-      
+  login(){
+    wx.redirectTo({
+      url: './login/login',
     })
-    
+  },
+  logout() {
+    wx.removeStorageSync('token');
+    let app = getApp();
+    app.data.is_login = false;
+    app.data.username = '';
   }
 })

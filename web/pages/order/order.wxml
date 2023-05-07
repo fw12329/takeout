@@ -1,11 +1,30 @@
-<view style="position: relative;">
-  <view class="category-container">
-  
-  <view class="category-main"></view>
+<view class="cu-card article {{isCard?'no-card':''}}" wx:for="{{order_list}}" style="margin-bottom: -10px;">
+  <view class="cu-item shadow" style="position: relative;">
+    <view class="title">
+      <view class="text-cut" style="font-size: 15px;">{{item.seller_name}}</view>
+    </view>
+    <scroll-view class="content-scroll" scroll-x="true" style="white-space: nowrap;">
+      <view class="content" wx:for="{{item.commodity_list}}" wx:key="commodity">
+        <view class="item" style="margin-right: 10px;">
+          <image src="{{item.commodity_photo}}" mode="aspectFill" style="width: 70px;height: 60px;border-radius: 5px;"></image>
+          <text class="name">{{item.commodity_name}}</text>
+        </view>
+        <view class="item" style="margin-right: 10px;">
+          <image src="{{item.commodity_photo}}" mode="aspectFill" style="width: 70px;height: 60px;border-radius: 5px;"></image>
+          <text class="name">{{item.commodity_name}}</text>
+        </view>
+        <view class="item" style="margin-right: 10px;">
+          <image src="{{item.commodity_photo}}" mode="aspectFill" style="width: 70px;height: 60px;border-radius: 5px;"></image>
+          <text class="name">{{item.commodity_name}}</text>
+        </view>
+        
+        
+
+      </view>
+     
+    </scroll-view>
+    <text style="font-size: 18px; position: absolute; top: 0; left: 0; display: block; width: 100%;margin-left: 236px;margin-top: 60px;bo">¥ {{item.order_price}}</text>
+
+
   </view>
 </view>
-<view class="category-header">
-    
-  </view>
-
-

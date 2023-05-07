@@ -36,11 +36,11 @@ public class GetListServiceImpl implements GetListService {
     @Override
     @Transactional
     public List<Map<String,Object>> getList() {
-        UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-        UserDetailsImpl loginUser = (UserDetailsImpl) authenticationToken.getPrincipal();
-        User user = loginUser.getUser();
+//        UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+//        UserDetailsImpl loginUser = (UserDetailsImpl) authenticationToken.getPrincipal();
+//        User user = loginUser.getUser();
         QueryWrapper<Orders> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("open_id",user.getOpenId());
+        queryWrapper.eq("open_id","RkJ+Yanb6sGYZuvPQnK3Vw==");
 
 
         List<Map<String,Object>> orders = new ArrayList<>();

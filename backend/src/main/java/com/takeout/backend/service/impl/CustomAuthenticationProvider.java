@@ -40,6 +40,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+
         BufferedReader reader;
         String line;
         Map<Object,Object> map;
@@ -55,6 +56,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
                 stringBuilder.append(line);
             }
             String requestBody = stringBuilder.toString();
+            System.out.println(requestBody);
             map = mapper.readValue(requestBody, Map.class);
             String code = map.get("code").toString();
             String appid = map.get("appid").toString();
@@ -66,10 +68,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             result.put("grant_type", "authorization_code");
             String s = HttpClientUtil.doGet(url,result);
             Map<String,String> WxUserInfo = mapper.readValue(s, Map.class);
+
             if(WxUserInfo.get("session_key") == null) {
                 throw new BadCredentialsException("code失效");
             }
-            openId = WxUserInfo.get("session_key");
+            openId = WxUserInfo.get("openid");
             UserDetails userDetails = userDetailsService.loadUserByUsername(openId);
             if(userDetails == null) {
                 String username = "QS" + RandomStringUtils.randomNumeric(8);
