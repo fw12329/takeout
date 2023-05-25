@@ -1,11 +1,11 @@
 <view>
 
-  <view class="solid-bottom text-xl padding" style="margin-left: 95px;">
+  <view class="text-xl padding" style="margin-left: 120px;margin-top: 100px;">
     
     <view class="padding" style="margin-left: 1px;">
       <view class="cu-avatar radius margin-left" style="background-image:url(https://img2.baidu.com/it/u=1783450783,3696414081&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=624);height: 70px;width: 70px;border-radius: 10px;"></view>
     </view>
-    <text class="text-black text-bold" style="font-size: 16px;">你比美团还能送</text>
+    <text class="text-black text-bold" style="font-size: 16px;margin-left: 10px;">你比美团还能送</text>
     
   </view>
   <button class="cu-btn block bg-black margin-tb-sm lg" style="width: 250px;margin-top: 70px;" bindtap="login" wx:if="{{!is_login}}"> 微信注册</button>

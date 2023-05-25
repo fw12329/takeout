@@ -36,9 +36,9 @@ public class GetOrderDetailsServiceImpl implements GetOrderDetailsService {
 
     @Override
     public ArrayList<Map<String,Object>> getorderdetails(Map<String, String> data) {
-//        UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-//        UserDetailsImpl loginUser = (UserDetailsImpl) authenticationToken.getPrincipal();
-//        User user = loginUser.getUser();
+        UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl loginUser = (UserDetailsImpl) authenticationToken.getPrincipal();
+        User user = loginUser.getUser();
         String order_id = data.get("order_id");
 
         QueryWrapper<Orders> queryWrapper_orders = new QueryWrapper<>();

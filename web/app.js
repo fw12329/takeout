@@ -2,6 +2,7 @@
 App({
   data:{
     username:'',
-    is_login:false
+    is_login:false,
+    number:''
   }
 })

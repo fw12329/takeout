@@ -3,7 +3,9 @@ package com.takeout.backend.controller.user.order;
 import com.takeout.backend.pojo.Orders;
 import com.takeout.backend.service.user.order.GetListService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -15,8 +17,9 @@ public class GetListController {
     private GetListService getListService;
 
 
-    @GetMapping("/user/order/getlist/")
-    public List<Map<String,Object>> getList() {
-        return getListService.getList();
+    @PostMapping("/user/order/getlist/")
+    public List<Map<String,Object>> getList(@RequestBody Map<String,String> data) {
+        Integer page = Integer.parseInt(data.get("page"));
+        return getListService.getList(page);
     }
 }

@@ -10,6 +10,7 @@ public interface CommitOrderService {
                                    String contact_name,
                                    String contact_phone,
                                    String contact_address,
+                                   String is_play,
                                    Integer status,
                                    String orders) throws JsonProcessingException;
 }

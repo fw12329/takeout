@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
@@ -24,23 +25,27 @@ public class CreateSellerServiceImpl implements CreateSellerService {
 
 
     @Override
+    @Transactional
     public Map<String, String> create(MultipartFile photo,
                                       String seller_name,
                                       String seller_desc,
                                       String seller_address,
                                       Integer category_id,
                                       String license_number) {
-        System.out.println(SecurityContextHolder.getContext().getAuthentication());
         UsernamePasswordAuthenticationToken authentication =
                 (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
 
         UserDetailsImpl loginUser = (UserDetailsImpl) authentication.getPrincipal();
         User user = loginUser.getUser();
-        String open_id = loginUser.getUser().getOpenId();
+        String open_id = user.getOpenId();
         Map<String,String> map = new HashMap<>();
         Map<String,String> result = UploadUtil.upload(photo);
         if(!result.get("error_message").equals("success")) {
             map.put("error_message","图片上传失败");
+            return map;
+        }
+        if(seller_name.trim().length() < 1) {
+            map.put("error_message","商家名不能为空");
             return map;
         }
         String image = result.get("photo");

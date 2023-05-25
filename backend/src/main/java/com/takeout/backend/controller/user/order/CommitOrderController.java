@@ -22,9 +22,10 @@ public class CommitOrderController {
         String contact_name = data.get("contact_name");
         String contact_phone = data.get("contact_phone");
         String contact_address = data.get("contact_address");
+        String is_play = data.get("is_play");
         Integer status = Integer.parseInt(data.get("status"));
         String orders = data.get("orders");
 
-        return commitOrderService.commitOrder(seller_id,contact_name,contact_phone,contact_address,status,orders);
+        return commitOrderService.commitOrder(seller_id,contact_name,contact_phone,contact_address,is_play,status,orders);
     }
 }

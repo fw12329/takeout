@@ -3,7 +3,9 @@
     "pages/index/index",
     "pages/order/order",
     "pages/me/me",
-    "pages/me/login/login"
+    "pages/me/login/login",
+    "pages/not_login/not_login",
+    "pages/seller/seller"
   ],
   "window": {
     "backgroundTextStyle": "light",

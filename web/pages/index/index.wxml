@@ -8,7 +8,9 @@
       <button class="cu-btn bg-green shadow-blur round">搜索</button>
     </view>
   </view>
+  
 </view>
+
 <swiper class="card-swiper {{DotStyle?'square-dot':'round-dot'}}" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500" bindchange="cardSwiper" indicator-color="#8799a3" indicator-active-color="#0081ff">
   <swiper-item wx:for="{{swiperList}}" wx:key class="{{cardCur==index?'cur':''}}">
     <view class="swiper-item">
@@ -17,17 +19,16 @@
     </view>
   </swiper-item>
 </swiper>
-<view class="cu-card article" wx:for="{{arr}}" style="margin-bottom:-16px">
+<view class="cu-card article" wx:for="{{seller_list}}" style="margin-bottom:-16px" bindtap="log" data-id="{{item.sellerId}}" bindtap="skip">
   <view class="cu-item shadow" style="border-radius: 10px;">
     <view class="content" style="padding-top: 10px;">
-      <image src="https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg" mode="aspectFill" style="height: 100px;"></image >
+      <image src="{{item.sellerPhoto}}" mode="aspectFill" style="height: 105px;margin-top: 4px;"></image >
       <view class="desc">
-        <view style="font-size: 18px;font-weight:600">兰州拉面</view>
+        <view style="font-size: 18px;font-weight:600">{{item.sellerName}}</view>
+        <view class="text-content">{{item.sellerDesc}}</view>
         <view >
           <view class="cu-tag bg-red light sm round"  style="font-size: 10px;">口味好评率94%</view>
           <view class="cu-tag bg-green light sm round" style="font-size: 10px;">店家很贴心</view>
-          <view class="cu-tag bg-green light sm round" style="font-size: 10px;">大众点评高分店铺</view>
-          <view class="cu-tag bg-green light sm round" style="font-size: 10px;">独立包装</view>
         </view>
       </view>
     </view>

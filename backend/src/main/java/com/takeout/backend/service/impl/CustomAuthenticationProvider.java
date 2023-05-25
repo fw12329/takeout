@@ -40,7 +40,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-
         BufferedReader reader;
         String line;
         Map<Object,Object> map;
@@ -76,7 +75,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             UserDetails userDetails = userDetailsService.loadUserByUsername(openId);
             if(userDetails == null) {
                 String username = "QS" + RandomStringUtils.randomNumeric(8);
-                User user = new User(null,username,"123",new Date(),new Date(),openId);
+                User user = new User(null,username,"1145141919810",new Date(),new Date(),openId);
                 userMapper.insert(user);
                 userDetails = userDetailsService.loadUserByUsername(openId);
             }

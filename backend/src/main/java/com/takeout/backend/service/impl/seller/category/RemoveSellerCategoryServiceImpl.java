@@ -39,10 +39,16 @@ public class RemoveSellerCategoryServiceImpl implements RemoveSellerCategoryServ
         queryWrapper.eq("open_id",user.getOpenId());
         Seller seller = sellerMapper.selectOne(queryWrapper);
 
+        if(seller == null) {
+            map.put("error_message","该商家不存在");
+            return map;
+        }
+
         QueryWrapper<Sellercategory> queryWrapper1 = new QueryWrapper<>();
         queryWrapper.eq("seller_id",seller.getSellerId()).eq("id",id);
         if(sellerCategoryMapper.selectOne(queryWrapper1) == null) {
             map.put("error_message","您当前的店铺不存在这个类别");
+            return map;
         }
         sellerCategoryMapper.delete(queryWrapper1);
         map.put("error_message","success");

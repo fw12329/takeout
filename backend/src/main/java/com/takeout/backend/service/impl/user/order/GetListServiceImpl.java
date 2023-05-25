@@ -1,6 +1,8 @@
 package com.takeout.backend.service.impl.user.order;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.takeout.backend.mapper.CommodityMapper;
 import com.takeout.backend.mapper.DetailsMapper;
 import com.takeout.backend.mapper.OrdersMapper;
@@ -35,16 +37,17 @@ public class GetListServiceImpl implements GetListService {
     private CommodityMapper commodityMapper;
     @Override
     @Transactional
-    public List<Map<String,Object>> getList() {
-//        UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-//        UserDetailsImpl loginUser = (UserDetailsImpl) authenticationToken.getPrincipal();
-//        User user = loginUser.getUser();
+    public List<Map<String,Object>> getList(Integer page) {
+        UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl loginUser = (UserDetailsImpl) authenticationToken.getPrincipal();
+        User user = loginUser.getUser();
         QueryWrapper<Orders> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("open_id","RkJ+Yanb6sGYZuvPQnK3Vw==");
+        queryWrapper.eq("open_id",user.getOpenId());
 
 
         List<Map<String,Object>> orders = new ArrayList<>();
-        List<Orders> list = orderMapper.selectList(queryWrapper);
+        IPage<Orders> ordersIPage = new Page<>(page,10);
+        List<Orders> list = orderMapper.selectPage(ordersIPage,queryWrapper).getRecords();
         for(int i = 0;i < list.size();i++) {
             Map<String,Object> order = new HashMap<>();
             Integer order_id = list.get(i).getOrderId();

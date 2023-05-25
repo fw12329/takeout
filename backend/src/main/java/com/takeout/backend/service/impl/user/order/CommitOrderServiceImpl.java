@@ -40,6 +40,7 @@ public class CommitOrderServiceImpl implements CommitOrderService {
                                            String contact_name,
                                            String contact_phone,
                                            String contact_address,
+                                           String is_play,
                                            Integer status,
                                            String orders) throws JsonProcessingException {
         Map<String,String> map = new HashMap<>();
@@ -49,7 +50,7 @@ public class CommitOrderServiceImpl implements CommitOrderService {
         User user = loginUser.getUser();
         String open_id = user.getOpenId();
 
-        Orders or = new Orders(null,null,new Date(),new Date(),contact_name,contact_phone,contact_address,status,null,seller_id,open_id);
+        Orders or = new Orders(null,null,new Date(),new Date(),contact_name,contact_phone,contact_address,status,is_play,seller_id,open_id);
         ordersMapper.insert(or);
         Double orders_Price = 0.00;
         ArrayList<Object> order = objectMapper.readValue(orders,ArrayList.class);
@@ -81,16 +82,8 @@ public class CommitOrderServiceImpl implements CommitOrderService {
         or.setTotalPrice(orders_Price);
         ordersMapper.updateById(or);
         map.put("error_message","success");
+        map.put("order_id",or.getOrderId().toString());
         return map;
-//        try {
-//
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//            map.put("error_message",e.getMessage());
-//            return map;
-//
-//        }
-
 
 
     }

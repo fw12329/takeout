@@ -37,6 +37,17 @@ public class AddSellerCategoryServiceImpl implements AddSellerCategoryService {
         QueryWrapper<Seller> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("open_id",user.getOpenId());
         Seller seller = sellerMapper.selectOne(queryWrapper);
+        if(seller == null) {
+            map.put("error_message","该商家不存在");
+            return map;
+        }
+        QueryWrapper<Sellercategory> queryWrapper1 = new QueryWrapper<>();
+        queryWrapper1.eq("seller_id",seller.getSellerId()).eq("name",name);
+        Sellercategory sellercategory = sellerCategoryMapper.selectOne(queryWrapper1);
+        if(!(sellercategory == null)) {
+            map.put("error_message","不能重复创建分类");
+            return map;
+        }
         Sellercategory sellerCategory = new Sellercategory(null,seller.getSellerId(),name);
         sellerCategoryMapper.insert(sellerCategory);
         map.put("error_message","success");

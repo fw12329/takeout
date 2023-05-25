@@ -16,14 +16,16 @@ public class UpdateCommodityController {
     @Autowired
     private UpdateCommodityService updateCommodityService;
 
-    @PostMapping("/seller/commodity/updatecommodity")
+    @PostMapping("/seller/commodity/updatecommodity/")
     public Map<String,String> updateCommodity(@RequestParam("product_id") Integer product_id,
                                               @RequestParam("image") MultipartFile image,
                                               @RequestParam("product_name") String product_name,
                                               @RequestParam("sellercategory_id") Integer sellercategory_id,
                                               @RequestParam("description") String description,
-                                              @RequestParam("status") Integer status) {
-        return updateCommodityService.updateCommodity(product_id,image,product_name,sellercategory_id,description,status);
+                                              @RequestParam("specs") String specs,
+                                              @RequestParam("status") Integer status,
+                                              @RequestParam("category") String category) throws Exception {
+        return updateCommodityService.updateCommodity(product_id,image,product_name,sellercategory_id,description,specs,status,category);
 
     }
 }

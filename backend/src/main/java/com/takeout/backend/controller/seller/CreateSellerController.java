@@ -18,12 +18,12 @@ public class CreateSellerController {
     private CreateSellerService createSellerService;
 
     @PostMapping("/seller/createseller/")
-    public Map<String,String> crate(@RequestParam("image") MultipartFile photo,
-                                    @RequestParam("seller_name") String seller_name,
-                                    @RequestParam("seller-desc") String seller_desc,
-                                    @RequestParam("seller_address") String seller_address,
-                                    @RequestParam("category_id") Integer category_id,
-                                    @RequestParam("license_number") String license_number) {
+    public Map<String,String> crate(@RequestParam(value = "image", required = false) MultipartFile photo,
+                                    @RequestParam(value = "seller_name", required = false) String seller_name,
+                                    @RequestParam(value = "seller_desc", required = false) String seller_desc,
+                                    @RequestParam(value = "seller_address", required = false) String seller_address,
+                                    @RequestParam(value = "category_id", required = false) Integer category_id,
+                                    @RequestParam(value = "license_number", required = false) String license_number) {
         return createSellerService.create(photo,seller_name,seller_desc,seller_address,category_id,license_number);
     }
 

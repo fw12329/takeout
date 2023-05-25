@@ -32,6 +32,7 @@ public class LoginServiceImpl implements LoginService {
             map.put("error_message","success");
             map.put("token",jwt);
             map.put("username", user.getUsername());
+            map.put("number", user.getNumber());
         } catch (Exception e) {
             map.put("error_message",e.getMessage());
             return map;

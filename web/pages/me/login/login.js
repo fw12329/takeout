@@ -3,14 +3,26 @@ Page({
     is_login: false
   },
   login() {
+    wx.request({
+      url: 'https://lxtx.xyz/user/seller/getsellerlist/',
+      method:"post",
+      data:{
+        page:1
+      },
+      success(resp) {
+        console.log(resp)
+      }
+    })
     let that = this
     that.setData({
       is_login: !that.data.is_login
     })
+
     wx.login({
+      
       success: (res) => {
         wx.request({
-          url: 'http://127.0.0.1:8081/user/account/token/',
+          url: 'https://lxtx.xyz/user/account/token/',
           method: 'post',
           data: {
             appid: 'wx5b4cb4e9e492572f',

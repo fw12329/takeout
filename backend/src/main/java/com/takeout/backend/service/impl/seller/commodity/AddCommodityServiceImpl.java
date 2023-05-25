@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -37,13 +38,18 @@ public class AddCommodityServiceImpl implements AddCommodityService {
     @Autowired
     private CommodityMapper commodityMapper;
 
+    @Autowired
+    private CommodityCategoryMapper commodityCategoryMapper;
+
 
     @Override
     @Transactional
     public Map<String, String> addCommodity(MultipartFile image,
                                             String product_name,
+                                            Integer status,
                                             String desc,
-                                            String specs) throws JsonProcessingException {
+                                            String specs,
+                                            String category) throws JsonProcessingException {
         Map<String,String> data = new HashMap<>();
         UsernamePasswordAuthenticationToken authentication =
                 (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
@@ -58,7 +64,7 @@ public class AddCommodityServiceImpl implements AddCommodityService {
         Seller seller = sellerMapper.selectOne(queryWrapper);
 
         if(seller == null) {
-            data.put("error_message","您没有创建商家");
+            data.put("error_message","您还没有创建商家");
             return data;
         }
 
@@ -69,10 +75,15 @@ public class AddCommodityServiceImpl implements AddCommodityService {
             return data;
         }
         String photo = result.get("photo");
-        Commodity commodity = new Commodity(null,product_name,photo,desc,seller_id,null,0);
+        Commodity commodity = new Commodity(null,product_name,photo,desc,seller_id,null,status);
         commodityMapper.insert(commodity);
         Integer product_id = commodity.getProductId();
         ArrayList<Map<String,Object>> spec = objectMapper.readValue(specs,ArrayList.class);
+        List<Object> cate = objectMapper.readValue(category,ArrayList.class);
+        for(int i = 0;i < cate.size();i++) {
+            Commoditycategory commodityCategory = new Commoditycategory(null,cate.get(i).toString(),commodity.getProductId(),seller_id);
+            commodityCategoryMapper.insert(commodityCategory);
+        }
         for(int i = 0;i < spec.size();i++) {
             Map<String,Object> spec_details = spec.get(i);
             String specs_name = spec_details.get("specs_name").toString();

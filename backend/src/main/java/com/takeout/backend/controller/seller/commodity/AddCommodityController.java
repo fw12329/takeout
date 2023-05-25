@@ -20,10 +20,12 @@ public class AddCommodityController {
     @PostMapping("/seller/commodity/addcommodity/")
     public Map<String,String> addCommodity(@RequestParam("image")MultipartFile image,
                                            @RequestParam("product_name") String product_name,
+                                           @RequestParam("status") Integer status,
                                            @RequestParam("desc") String desc,
-                                           @RequestParam("specs") String specs) throws JsonProcessingException {
+                                           @RequestParam("specs") String specs,
+                                           @RequestParam("category") String category) throws JsonProcessingException {
 
-        return addCommodityService.addCommodity(image,product_name,desc,specs);
+        return addCommodityService.addCommodity(image,product_name,status,desc,specs,category);
 }
 
 

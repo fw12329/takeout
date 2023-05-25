@@ -8,6 +8,8 @@ import java.util.Map;
 public interface AddCommodityService {
     Map<String,String> addCommodity(MultipartFile image,
                                     String product_name,
+                                    Integer status,
                                     String desc,
-                                    String specs) throws JsonProcessingException;
+                                    String specs,
+                                    String category) throws JsonProcessingException;
 }
